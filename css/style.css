@@ -474,6 +474,11 @@ section { padding: 48px 0; }
 }
 .legal-toc p { font-weight: 700; margin-bottom: 0.6em; }
 .legal-toc ol { margin: 0; }
+.legal-lang-link {
+  font-size: 0.88rem;
+  margin: -1.2em 0 2em;
+}
+.legal-lang-link a { color: var(--clay); }
 
 .steps-ol { counter-reset: none; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; }
 .steps-ol li {

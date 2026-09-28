@@ -9,6 +9,11 @@ public/**/*.html:
   3. the text "—" (em dash) appears anywhere in the file
   4. any <script> tag is present
   5. any emoji codepoint appears in the file text
+  6. a fabricated social-proof / popularity claim appears (no customers
+     yet, so "most used", "best seller" etc. are false)
+  7. "เท่านั้น" (only/exclusively) appears near "ตรวจ" (review/check) —
+     the site must never claim a human reviews *every* message, since
+     some plans let Chatudo auto-reply during shop-chosen hours
 """
 import pathlib
 import re
@@ -23,6 +28,9 @@ REQUIRED_PAGES = [
     "privacy/index.html",
     "terms/index.html",
     "data-deletion/index.html",
+    "en/privacy/index.html",
+    "en/terms/index.html",
+    "en/data-deletion/index.html",
     "404.html",
     "robots.txt",
     "sitemap.xml",
@@ -33,6 +41,15 @@ EM_DASH = "—"
 SCRIPT_TAG_RE = re.compile(r"<script\b", re.IGNORECASE)
 LINK_ATTR_RE = re.compile(r'(?:href|src)="([^"]*)"')
 ID_ATTR_RE = re.compile(r'\bid="([^"]+)"')
+
+# H. Cheap regression guards from CEO/CTO round-2 review 2026-09-28: no
+# invented social-proof claims (zero customers so far makes them false),
+# and no "checked only" absolutism next to the review/approve claim.
+FORBIDDEN_PHRASES = ["ใช้เยอะที่สุด", "ขายดี", "ยอดนิยม"]
+FORBIDDEN_PHRASES_CI = ["most popular"]
+# "เท่านั้น" within ~40 chars of "ตรวจ", either order (covers the exact
+# defect found: "...ตรวจแล้วเท่านั้น").
+ONLY_NEAR_REVIEW_RE = re.compile(r"ตรวจ.{0,40}?เท่านั้น|เท่านั้น.{0,40}?ตรวจ")
 
 # Emoji / pictograph / dingbat / arrow ranges. This also covers the
 # characters the brief calls out by name: check mark U+2713, multiplication
@@ -116,6 +133,19 @@ def main():
             codepoints = ", ".join(f"U+{ord(c):04X}" for c in uniq)
             errors.append(f"{rel}: contains emoji/pictograph character(s): {codepoints}")
 
+        # 6. fabricated social-proof / popularity claims
+        for phrase in FORBIDDEN_PHRASES:
+            if phrase in text:
+                errors.append(f"{rel}: contains unverified social-proof claim: \"{phrase}\"")
+        lower_text = text.lower()
+        for phrase in FORBIDDEN_PHRASES_CI:
+            if phrase in lower_text:
+                errors.append(f"{rel}: contains unverified social-proof claim: \"{phrase}\"")
+
+        # 7. "เท่านั้น" next to "ตรวจ" (claims a human checks EVERY message)
+        if ONLY_NEAR_REVIEW_RE.search(text):
+            errors.append(f"{rel}: \"เท่านั้น\" appears next to \"ตรวจ\" (claims every message is human-checked; some plans auto-reply during shop-chosen hours)")
+
         # 2. internal links
         for raw in LINK_ATTR_RE.findall(text):
             resolved = resolve_target(f, raw)
@@ -136,7 +166,7 @@ def main():
         fail(errors)
 
     print(f"OK: {len(REQUIRED_PAGES)} required pages present.")
-    print(f"OK: {len(html_files)} HTML file(s) scanned, no em dash, no <script>, no emoji, no broken internal links/anchors.")
+    print(f"OK: {len(html_files)} HTML file(s) scanned, no em dash, no <script>, no emoji, no broken internal links/anchors, no fabricated social-proof claims, no \"ตรวจ...เท่านั้น\".")
 
 
 if __name__ == "__main__":

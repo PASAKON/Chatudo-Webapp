@@ -33,6 +33,15 @@ def ph(key: str, label: str) -> str:
     return f'<span class="ph">[รอยืนยัน: {label}]</span>'
 
 
+def ph_en(key: str, label: str) -> str:
+    """English-language counterpart to ph(): same config value, or a
+    visible `[TBC: <label>]` placeholder for the /en/ legal pages."""
+    value = CONFIG.get(key)
+    if value:
+        return str(value)
+    return f'<span class="ph">[TBC: {label}]</span>'
+
+
 # ---------------------------------------------------------------------------
 # Shared fragments
 # ---------------------------------------------------------------------------
@@ -94,7 +103,7 @@ JOBS = [
 STEPS = [
     ("link", "เชื่อมต่อ LINE OA ของร้าน", "เชื่อมบัญชี LINE OA ที่ร้านใช้อยู่กับ Chatudo ใช้เวลาไม่นาน ไม่ต้องเปลี่ยนเบอร์หรือย้ายลูกค้าไปที่ใหม่"),
     ("book", "Chatudo เรียนรู้ข้อมูลร้าน", "ระบบเรียนรู้จากเพจ คำถามที่ลูกค้าถามบ่อย และคำตอบที่แอดมินเคยใช้ เพื่อร่างคำตอบให้ตรงกับสไตล์ร้านคุณ"),
-    ("check", "แอดมินเช็กแล้วกดส่ง", "ทุกคำตอบที่ AI ร่างไว้ แอดมินของร้านเป็นคนตรวจและกดส่งเองเสมอ Chatudo ไม่ส่งข้อความให้ลูกค้าเองโดยไม่ผ่านคน"),
+    ("check", "แอดมินเช็กแล้วกดส่ง", "แอดมินของร้านเป็นคนตรวจและกดส่งคำตอบที่ AI ร่างไว้เป็นค่าเริ่มต้น ยกเว้นช่วงเวลาที่ร้านเลือกให้ Chatudo ตอบลูกค้าเอง เช่น ตอนดึกหรือวันหยุด ตามที่ระบุในแพ็ก"),
 ]
 
 SEGMENTS = [
@@ -147,7 +156,7 @@ def render_home() -> str:
 <section class="hero">
   <div class="container">
     <div class="hero-copy">
-      <span class="eyebrow">{icon('sparkle')} ทีมดูแลแชทให้ครบ</span>
+      <span class="eyebrow">{icon('sparkle')} ระบบผู้ช่วยแอดมิน</span>
       <h1>ผู้ช่วยแอดมินที่ตอบแทนได้ตอนร้านคุณไม่ว่าง</h1>
       <p class="hero-lede">Chatudo คือระบบผู้ช่วยแอดมินสำหรับร้านที่ขายผ่านแชท AI ร่างคำตอบให้ แอดมินของร้านเช็กแล้วกดส่งเอง ลูกค้าได้รับคำตอบเร็วขึ้น แอดมินไม่ต้องตอบซ้ำๆ ทุกข้อความเอง</p>
       <div class="hero-ctas">
@@ -158,8 +167,8 @@ def render_home() -> str:
     </div>
     <div class="hero-art">
       <img src="/assets/img/logo-mark.png" alt="" width="100" height="100">
-      <span class="hero-art-badge">{icon('check')} คนตรวจทุกข้อความก่อนส่ง</span>
-      <p style="color:var(--warm-gray);font-size:0.95rem">AI ร่าง แอดมินอนุมัติ ลูกค้าได้รับคำตอบที่ผ่านการตรวจแล้วเท่านั้น</p>
+      <span class="hero-art-badge">{icon('check')} แอดมินอนุมัติก่อนส่งเป็นค่าเริ่มต้น</span>
+      <p style="color:var(--warm-gray);font-size:0.95rem">AI ร่าง แอดมินอนุมัติก่อนส่งเป็นค่าเริ่มต้น ยกเว้นช่วงเวลาที่ร้านเลือกให้ Chatudo ตอบเอง เช่น ตอนดึกหรือวันหยุด</p>
     </div>
   </div>
 </section>
@@ -202,9 +211,9 @@ def render_home() -> str:
 """
     return base_page(
         path="/",
-        title="Chatudo · ทีมดูแลแชทให้ครบ ผู้ช่วยแอดมินสำหรับร้านค้าที่ขายผ่านแชท",
+        title="Chatudo · ระบบผู้ช่วยแอดมินสำหรับร้านค้าที่ขายผ่านแชท",
         description="Chatudo คือระบบผู้ช่วยแอดมินสำหรับร้านค้าที่ขายผ่าน LINE OA, Facebook Messenger และ Instagram AI ร่างคำตอบ แอดมินของร้านตรวจและกดส่งเอง",
-        og_title="Chatudo · ทีมดูแลแชทให้ครบ",
+        og_title="Chatudo · ระบบผู้ช่วยแอดมิน",
         og_description="AI ร่างคำตอบ แอดมินของร้านตรวจก่อนส่งทุกข้อความ ผู้ช่วยแอดมินสำหรับร้านที่ขายผ่านแชท",
         body_html=body,
         active_key="home",
@@ -223,8 +232,9 @@ PLANS = [
         "badge": "จำกัด 30 ร้านแรก",
         "price": "฿990",
         "period": "/เดือน",
-        "note": "ราคานี้ใช้ได้ 2 เดือนแรก ได้สิทธิ์เท่าแพ็ก Pro ทั้งหมด แลกกับการเป็น case study ให้ Chatudo",
-        "features": ["ฟีเจอร์ทั้งหมดของแพ็ก Pro", "ทีมงานช่วยตั้งค่าให้ตั้งแต่ต้น", "ใช้ต่อในราคา Pro ปกติหลังจบโปรโมชัน"],
+        "note": f"ราคานี้ใช้ได้ 2 เดือนแรก ได้สิทธิ์เท่าแพ็ก Pro ทั้งหมด แลกกับการเป็น case study ให้ Chatudo "
+                f"หลังจากนั้น {ph('founding_after_price', 'ราคาหลัง 2 เดือนแรก')}",
+        "features": ["ฟีเจอร์ทั้งหมดของแพ็ก Pro"],
         "featured": False,
     },
     {
@@ -238,7 +248,7 @@ PLANS = [
     },
     {
         "name": "Pro",
-        "badge": "ใช้เยอะที่สุด",
+        "badge": None,
         "price": "฿3,990",
         "period": "/เดือน",
         "note": "ครบทุกช่องทางแชทหลัก",
@@ -281,14 +291,14 @@ def render_pricing() -> str:
   <div class="container">
     <div class="section-head">
       <h2>ราคา Chatudo</h2>
-      <p>เลือกแพ็กตามช่องทางและขนาดร้าน ไม่มีค่าติดตั้งซ่อนเร้น ยกเลิกได้ทุกเดือน</p>
+      <p>เลือกแพ็กตามช่องทางและขนาดร้าน</p>
     </div>
     <div class="pricing-grid">{cards}
     </div>
     {meta_note_html()}
     <div class="notice">
       <span class="icon">{icon('info')}</span>
-      <span>ราคาทั้งหมดยังไม่รวมภาษีมูลค่าเพิ่ม ราคาแพ็ก Founding ใช้ได้กับ 30 ร้านแรกที่สมัครเท่านั้น หลังจากนั้นจะเปลี่ยนเป็นราคา Starter ปกติ</span>
+      <span>{ph('vat_note', 'ราคารวม VAT หรือไม่')}</span>
     </div>
   </div>
 </section>
@@ -299,10 +309,6 @@ def render_pricing() -> str:
       <h2>คำถามที่พบบ่อย</h2>
     </div>
     <div class="grid">
-      <div class="card">
-        <h3>ยกเลิกได้ไหม</h3>
-        <p>ยกเลิกได้ทุกเดือน ไม่มีสัญญาผูกมัดระยะยาว</p>
-      </div>
       <div class="card">
         <h3>Chatudo ตอบแทนแอดมินเลยไหม</h3>
         <p>ไม่ใช่ระบบตอบอัตโนมัติเต็มรูปแบบ AI ร่างคำตอบให้ แอดมินของร้านเป็นคนตรวจและกดส่งเอง ยกเว้นช่วงเวลาที่ร้านตั้งค่าให้ตอบแทนตอนกลางคืนตามที่ระบุในแพ็ก</p>
@@ -335,7 +341,7 @@ def render_pricing() -> str:
 # ---------------------------------------------------------------------------
 
 def legal_meta(effective_label="วันที่มีผลบังคับใช้") -> str:
-    return f'<p class="legal-meta">ร่างเอกสารสำหรับการพิจารณาภายใน {ph("effective_date", effective_label)}</p>'
+    return f'<p class="legal-meta">มีผลบังคับใช้ตั้งแต่วันที่ {ph("effective_date", effective_label)}</p>'
 
 
 def render_privacy() -> str:
@@ -349,6 +355,7 @@ def render_privacy() -> str:
   <div class="container legal-wrap">
     <h1>นโยบายความเป็นส่วนตัว</h1>
     {legal_meta()}
+    <p class="legal-lang-link"><a href="/en/privacy/">English version</a></p>
     <div class="legal-toc">
       <p>สารบัญ</p>
       <ol>
@@ -388,7 +395,7 @@ def render_privacy() -> str:
 
     <h2 id="processors">4. ผู้ประมวลผลข้อมูล</h2>
     <p>เราใช้บริการผู้ให้บริการภายนอกเพื่อประมวลผลข้อมูลในนามของเรา ได้แก่ ผู้ให้บริการฐานข้อมูลและโฮสติ้งบนคลาวด์
-    และผู้ให้บริการโมเดล AI ที่ใช้ร่างคำตอบ ผู้ให้บริการเหล่านี้ประมวลผลข้อมูลตามคำสั่งของเราเท่านั้น และมีข้อตกลงคุ้มครองข้อมูลร่วมกัน</p>
+    และผู้ให้บริการโมเดล AI ที่ใช้ร่างคำตอบ ผู้ให้บริการเหล่านี้ประมวลผลข้อมูลตามคำสั่งของเราเท่านั้น</p>
 
     <h2 id="transfer">5. การโอนข้อมูลข้ามประเทศ</h2>
     <p>ผู้ประมวลผลข้อมูลบางรายที่ระบุในข้อ 4 อาจตั้งอยู่นอกประเทศไทย ในกรณีที่มีการโอนข้อมูลออกนอกประเทศ
@@ -399,7 +406,7 @@ def render_privacy() -> str:
 
     <h2 id="security">7. มาตรการความปลอดภัย</h2>
     <p>เรามีมาตรการทางเทคนิคและการบริหารจัดการเพื่อป้องกันการเข้าถึง เปิดเผย หรือใช้ข้อมูลโดยไม่ได้รับอนุญาต เช่น
-    การเข้ารหัสข้อมูลระหว่างส่ง การจำกัดสิทธิ์การเข้าถึงเฉพาะผู้ที่เกี่ยวข้อง และการทบทวนสิทธิ์การเข้าถึงเป็นระยะ</p>
+    การเข้ารหัสข้อมูลระหว่างส่ง (TLS) และการจำกัดสิทธิ์การเข้าถึงเฉพาะผู้ที่เกี่ยวข้อง</p>
 
     <h2 id="rights">8. สิทธิของเจ้าของข้อมูล</h2>
     <p>ภายใต้ PDPA เจ้าของข้อมูลมีสิทธิขอเข้าถึง ขอสำเนา ขอแก้ไขให้ถูกต้อง ขอระงับการใช้ ขอลบข้อมูล ถอนความยินยอม
@@ -437,6 +444,7 @@ def render_terms() -> str:
   <div class="container legal-wrap">
     <h1>ข้อตกลงการใช้บริการ</h1>
     {legal_meta()}
+    <p class="legal-lang-link"><a href="/en/terms/">English version</a></p>
 
     <h2>1. การยอมรับข้อตกลง</h2>
     <p>การสมัครใช้บริการ Chatudo ถือว่าร้านค้าผู้ใช้บริการยอมรับข้อตกลงฉบับนี้ทั้งหมด หากไม่ยอมรับ กรุณาไม่ใช้บริการ</p>
@@ -454,7 +462,7 @@ def render_terms() -> str:
 
     <h2>4. การสมัครและการชำระค่าบริการ</h2>
     <p>ร้านค้าเลือกแพ็กและชำระค่าบริการตามราคาที่ระบุในหน้า <a href="/pricing/">ราคา</a> เป็นรายเดือน
-    การเปลี่ยนแพ็กหรือยกเลิกบริการมีผลตั้งแต่รอบบิลถัดไป ราคาที่ระบุยังไม่รวมภาษีมูลค่าเพิ่ม</p>
+    การเปลี่ยนแพ็กหรือยกเลิกบริการมีผลตั้งแต่รอบบิลถัดไป {ph('vat_note', 'ราคารวม VAT หรือไม่')}</p>
 
     <h2>5. หน้าที่ของร้านค้า</h2>
     <ul>
@@ -509,7 +517,8 @@ def render_data_deletion() -> str:
     sla = ph("deletion_request_sla", "ระยะเวลาดำเนินการลบข้อมูล")
     steps = [
         ("mail", "ส่งคำขอมาให้เรา", f"ส่งอีเมลมาที่ {email} พร้อมระบุชื่อร้านค้า ช่องทางที่ใช้งาน (LINE OA / Messenger / Instagram) "
-         "และบัญชีที่ต้องการให้ลบข้อมูล หรือพิมพ์คำขอในแชทที่คุยกับ Chatudo โดยตรง เช่น พิมพ์ว่า “ขอลบข้อมูล”"),
+         "และบัญชีที่ต้องการให้ลบข้อมูล (ช่องทางหลักที่แนะนำ) หรือพิมพ์คำขอในแชทที่คุยกับร้านค้าที่ใช้ Chatudo อยู่ "
+         "เช่น พิมพ์ว่า “ขอลบข้อมูล” แล้วร้านค้าจะส่งคำขอต่อมาให้เรา"),
         ("shield", "เราตรวจสอบคำขอ", "ทีมงานยืนยันตัวตนผู้ขอและตรวจสอบว่าข้อมูลที่จะลบตรงกับบัญชีที่ระบุ เพื่อป้องกันการลบข้อมูลผิดบัญชี"),
         ("clock", "ดำเนินการลบ", f"ข้อมูลที่เกี่ยวข้องกับบัญชีที่ขอจะถูกลบภายใน {sla} นับจากวันที่เราตรวจสอบคำขอเสร็จสิ้น"),
         ("check", "ยืนยันผลให้ทราบ", "เราจะส่งอีเมลหรือข้อความยืนยันกลับไปเมื่อการลบข้อมูลเสร็จสมบูรณ์"),
@@ -526,6 +535,7 @@ def render_data_deletion() -> str:
   <div class="container legal-wrap">
     <h1>วิธีขอลบข้อมูล</h1>
     {legal_meta()}
+    <p class="legal-lang-link"><a href="/en/data-deletion/">English version</a></p>
     <p>หากลูกค้าของร้านค้าที่ใช้ Chatudo ต้องการให้ลบข้อมูลส่วนบุคคลที่เกี่ยวข้องกับการสนทนาผ่าน Chatudo
     ทำตามขั้นตอนด้านล่าง</p>
 
@@ -552,6 +562,254 @@ def render_data_deletion() -> str:
         description="วิธีขอลบข้อมูลส่วนบุคคลจากระบบ Chatudo ขั้นตอน ระยะเวลาดำเนินการ และการยืนยันผล",
         og_title="วิธีขอลบข้อมูล · Chatudo",
         og_description="ขั้นตอนการขอลบข้อมูลส่วนบุคคลจาก Chatudo",
+        body_html=body,
+        active_key="data-deletion",
+        config=CONFIG,
+        ph=ph,
+    )
+
+
+# ---------------------------------------------------------------------------
+# English legal pages (Meta App Review reads English) — same content and
+# same placeholders as the Thai pages above, kept in sync by hand.
+# ---------------------------------------------------------------------------
+
+def legal_meta_en(effective_label="effective date") -> str:
+    return f'<p class="legal-meta">Effective from {ph_en("effective_date", effective_label)}</p>'
+
+
+def render_privacy_en() -> str:
+    email = ph_en("contact_email", "contact email")
+    phone = ph_en("contact_phone", "contact phone")
+    legal_name = ph_en("legal_name", "legal entity name")
+    address = ph_en("registered_address", "registered address")
+    retention = ph_en("data_retention_period", "data retention period")
+    body = f"""
+<section>
+  <div class="container legal-wrap">
+    <h1>Privacy Policy</h1>
+    {legal_meta_en()}
+    <p class="legal-lang-link"><a href="/privacy/">Thai version (ภาษาไทย)</a></p>
+    <div class="legal-toc">
+      <p>Contents</p>
+      <ol>
+        <li><a href="#collect">Information We Collect</a></li>
+        <li><a href="#purpose">Purpose of Use</a></li>
+        <li><a href="#basis">Legal Basis</a></li>
+        <li><a href="#processors">Data Processors</a></li>
+        <li><a href="#transfer">Cross-Border Data Transfer</a></li>
+        <li><a href="#retention">Data Retention Period</a></li>
+        <li><a href="#security">Security Measures</a></li>
+        <li><a href="#rights">Your Rights</a></li>
+        <li><a href="#deletion">How to Request Deletion</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ol>
+    </div>
+
+    <p>Chatudo (&ldquo;we&rdquo;) provides an admin-assistant system for shops that sell through chat. This policy
+    explains how we collect, use and protect the personal data of customers who chat with shops using Chatudo,
+    under Thailand&rsquo;s Personal Data Protection Act B.E. 2562 (PDPA).</p>
+
+    <h2 id="collect">1. Information We Collect</h2>
+    <ul>
+      <li>Chat messages between a shop and its customers, sent through channels connected to Chatudo (e.g. LINE OA, Facebook Messenger, Instagram)</li>
+      <li>The platform user ID on that platform</li>
+      <li>Display name and profile picture, if the platform provides them</li>
+    </ul>
+
+    <h2 id="purpose">2. Purpose of Use</h2>
+    <ul>
+      <li>Draft and send replies on behalf of the shop using Chatudo</li>
+      <li>Hand off the conversation to the shop&rsquo;s admin for review and follow-up</li>
+      <li>Improve service quality, such as the accuracy of drafted replies</li>
+    </ul>
+
+    <h2 id="basis">3. Legal Basis</h2>
+    <p>We process data on the basis of necessity to perform the contract between the shop and Chatudo, and on the
+    basis of legitimate interest in providing chat-reply assistance for the shop. Where the law requires additional
+    consent, we will request it from the data subject following the process the law requires.</p>
+
+    <h2 id="processors">4. Data Processors</h2>
+    <p>We use third-party service providers to process data on our behalf, including database and cloud hosting
+    providers, and the AI model provider used to draft replies. These providers process data only on our instructions.</p>
+
+    <h2 id="transfer">5. Cross-Border Data Transfer</h2>
+    <p>Some data processors listed in section 4 may be located outside Thailand. Where data is transferred outside
+    the country, we will do so in accordance with the data-protection standards the PDPA requires.</p>
+
+    <h2 id="retention">6. Data Retention Period</h2>
+    <p>We retain conversation data for {retention} from the most recent contact, unless the law requires a longer
+    period, or the data subject requests earlier deletion.</p>
+
+    <h2 id="security">7. Security Measures</h2>
+    <p>We maintain technical and administrative measures to prevent unauthorized access, disclosure or use of data,
+    such as encryption in transit (TLS) and restricting access to authorized personnel only.</p>
+
+    <h2 id="rights">8. Your Rights</h2>
+    <p>Under the PDPA, data subjects have the right to access, request a copy, request correction, request
+    restriction of use, request deletion, withdraw consent, and file a complaint with the supervisory authority.
+    To exercise these rights, contact us using the details in section 10.</p>
+
+    <h2 id="deletion">9. How to Request Deletion</h2>
+    <p>See the detailed steps on our <a href="/en/data-deletion/">Data Deletion</a> page.</p>
+
+    <h2 id="contact">10. Contact Us</h2>
+    <p>{legal_name}<br>{address}<br>Email {email}<br>Phone {phone}</p>
+
+    <p class="legal-meta" style="border-bottom:none;padding-bottom:0;margin-top:2em">Effective from {ph_en('effective_date', 'effective date')}</p>
+  </div>
+</section>
+"""
+    return base_page(
+        lang="en",
+        path="/en/privacy/",
+        title="Privacy Policy · Chatudo",
+        description="Chatudo's privacy policy: what data we collect, why, our legal basis, data processors, and your rights under Thailand's PDPA.",
+        og_title="Privacy Policy · Chatudo",
+        og_description="What data we collect, why, and your rights under Thailand's PDPA.",
+        body_html=body,
+        active_key="privacy",
+        config=CONFIG,
+        ph=ph,
+    )
+
+
+def render_terms_en() -> str:
+    email = ph_en("contact_email", "contact email")
+    legal_name = ph_en("legal_name", "legal entity name")
+    address = ph_en("registered_address", "registered address")
+    body = f"""
+<section>
+  <div class="container legal-wrap">
+    <h1>Terms of Service</h1>
+    {legal_meta_en()}
+    <p class="legal-lang-link"><a href="/terms/">Thai version (ภาษาไทย)</a></p>
+
+    <h2>1. Acceptance of Terms</h2>
+    <p>By signing up for Chatudo, the shop agrees to these terms in full. If you do not agree, please do not use the service.</p>
+
+    <h2>2. Definitions</h2>
+    <ul>
+      <li>&ldquo;Service&rdquo; means Chatudo&rsquo;s admin-assistant system, which drafts and helps send chat replies</li>
+      <li>&ldquo;Shop&rdquo; means the business that signs up for Chatudo</li>
+      <li>&ldquo;Shop&rsquo;s customer&rdquo; means anyone who messages the shop through a channel connected to Chatudo</li>
+    </ul>
+
+    <h2>3. Nature of the Service</h2>
+    <p>Chatudo uses AI to draft replies from the shop&rsquo;s information. The shop&rsquo;s admin reviews and sends
+    each reply by default, except during the hours the shop chooses to let the system reply on its own, under the
+    terms of the plan it signed up for (e.g. night hours or holidays). This service is an admin assistant, not a
+    full replacement for the admin.</p>
+
+    <h2>4. Sign-up and Payment</h2>
+    <p>The shop selects a plan and pays the price listed on the <a href="/pricing/">Pricing</a> page monthly.
+    Changing plans or cancelling takes effect from the next billing cycle. {ph_en('vat_note', 'whether prices include VAT')}</p>
+
+    <h2>5. Shop Responsibilities</h2>
+    <ul>
+      <li>Provide accurate, up-to-date shop information for drafting replies</li>
+      <li>Keep the shop&rsquo;s team accounts and access secure</li>
+      <li>Review AI-drafted replies before sending, except where auto-reply hours have been configured</li>
+    </ul>
+
+    <h2>6. Data and Privacy</h2>
+    <p>Data collection and use follow our <a href="/en/privacy/">Privacy Policy</a>.</p>
+
+    <h2>7. Intellectual Property</h2>
+    <p>The software, trademarks and content of Chatudo are our property. The shop is granted a right to use the
+    service under these terms only, not a transfer of ownership.</p>
+
+    <h2>8. Limitation of Liability</h2>
+    <p>We make every effort to provide the service fully, but we do not guarantee that AI-drafted replies will be
+    accurate in every case. The shop is responsible for reviewing replies before sending, per section 5. We are not
+    liable for damages arising from the shop&rsquo;s failure to review replies before sending.</p>
+
+    <h2>9. Cancellation</h2>
+    <p>The shop may cancel the service at any time, effective from the next billing cycle. We may suspend or
+    terminate the service if the shop misuses it or fails to pay on time.</p>
+
+    <h2>10. Changes to These Terms</h2>
+    <p>We may update these terms from time to time and will notify the shop in advance through an appropriate
+    channel before changes take effect.</p>
+
+    <h2>11. Governing Law</h2>
+    <p>These terms are governed by the laws of Thailand.</p>
+
+    <h2>12. Contact Us</h2>
+    <p>{legal_name}<br>{address}<br>Email {email}</p>
+
+    <p class="legal-meta" style="border-bottom:none;padding-bottom:0;margin-top:2em">Effective from {ph_en('effective_date', 'effective date')}</p>
+  </div>
+</section>
+"""
+    return base_page(
+        lang="en",
+        path="/en/terms/",
+        title="Terms of Service · Chatudo",
+        description="Chatudo's terms of service: the nature of the service, payment, shop responsibilities, and limitation of liability.",
+        og_title="Terms of Service · Chatudo",
+        og_description="Terms of service for Chatudo's admin-assistant system.",
+        body_html=body,
+        active_key="terms",
+        config=CONFIG,
+        ph=ph,
+    )
+
+
+def render_data_deletion_en() -> str:
+    email = ph_en("contact_email", "contact email")
+    sla = ph_en("deletion_request_sla", "deletion turnaround time")
+    steps = [
+        ("mail", "Send us your request", f"Email {email} with the shop&rsquo;s name, the channel used "
+         "(LINE OA / Messenger / Instagram), and the account you want deleted (recommended primary route), or type "
+         "the request in the chat with the shop that uses Chatudo, e.g. type &ldquo;delete my data&rdquo;, and the "
+         "shop will forward the request to us."),
+        ("shield", "We verify the request", "Our team verifies the requester&rsquo;s identity and checks that the "
+         "data to be deleted matches the account specified, to prevent deleting the wrong account."),
+        ("clock", "We carry out the deletion", f"Data related to the requested account is deleted within {sla} "
+         "from the date we finish verifying the request."),
+        ("check", "We confirm the result", "We will send an email or message confirming once the deletion is complete."),
+    ]
+    steps_html = "\n".join(
+        f"""
+      <li>
+        <span class="step-num">{icon(ic)}</span>
+        <div><h3>{title}</h3><p>{body}</p></div>
+      </li>""" for ic, title, body in steps
+    )
+    body = f"""
+<section>
+  <div class="container legal-wrap">
+    <h1>How to Request Data Deletion</h1>
+    {legal_meta_en()}
+    <p class="legal-lang-link"><a href="/data-deletion/">Thai version (ภาษาไทย)</a></p>
+    <p>If a shop&rsquo;s customer using Chatudo wants their personal data related to conversations through Chatudo
+    deleted, follow the steps below.</p>
+
+    <ol class="steps-ol">{steps_html}
+    </ol>
+
+    <h2>Data That Gets Deleted</h2>
+    <ul>
+      <li>Conversation data stored in the system related to the requested account</li>
+      <li>Display name and profile picture stored for that account</li>
+      <li>The platform user ID linked to that account</li>
+    </ul>
+    <p>Some data the law requires us to keep (e.g. for accounting or dispute records) may be retained for the period
+    the law requires, even after a deletion request.</p>
+
+    <h2>Contact Us</h2>
+    <p>Questions about requesting deletion? Contact us at {email}</p>
+  </div>
+</section>
+"""
+    return base_page(
+        lang="en",
+        path="/en/data-deletion/",
+        title="How to Request Data Deletion · Chatudo",
+        description="How to request deletion of personal data from Chatudo: steps, turnaround time, and confirmation.",
+        og_title="How to Request Data Deletion · Chatudo",
+        og_description="Steps to request deletion of personal data from Chatudo.",
         body_html=body,
         active_key="data-deletion",
         config=CONFIG,
@@ -591,6 +849,9 @@ PAGES = {
     "privacy/index.html": render_privacy,
     "terms/index.html": render_terms,
     "data-deletion/index.html": render_data_deletion,
+    "en/privacy/index.html": render_privacy_en,
+    "en/terms/index.html": render_terms_en,
+    "en/data-deletion/index.html": render_data_deletion_en,
     "404.html": render_404,
 }
 
@@ -600,7 +861,10 @@ Allow: /
 Sitemap: https://chatudo.com/sitemap.xml
 """
 
-SITEMAP_URLS = ["/", "/pricing/", "/privacy/", "/terms/", "/data-deletion/"]
+SITEMAP_URLS = [
+    "/", "/pricing/", "/privacy/", "/terms/", "/data-deletion/",
+    "/en/privacy/", "/en/terms/", "/en/data-deletion/",
+]
 
 
 def render_sitemap() -> str:

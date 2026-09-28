@@ -10,5 +10,7 @@
   "facebook_page_url": null,
   "data_retention_period": null,
   "deletion_request_sla": null,
-  "effective_date": null
+  "effective_date": null,
+  "vat_note": null,
+  "founding_after_price": null
 }

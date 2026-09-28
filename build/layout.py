@@ -68,7 +68,7 @@ def render_footer(config: dict, ph) -> str:
           <img src="/assets/img/logo-mark.png" alt="" width="26" height="26">
           <span class="brand-word">chatudo</span>
         </a>
-        <p>ระบบผู้ช่วยแอดมินสำหรับร้านค้าที่ขายผ่านแชท AI ร่างคำตอบ แอดมินของร้านเป็นคนตรวจและกดส่งเองเสมอ</p>
+        <p>ระบบผู้ช่วยแอดมินสำหรับร้านค้าที่ขายผ่านแชท AI ร่างคำตอบ แอดมินของร้านเป็นคนตรวจและกดส่งเป็นค่าเริ่มต้น</p>
       </div>
       <div class="footer-col">
         <h3>บริการ</h3>
@@ -96,7 +96,7 @@ def render_footer(config: dict, ph) -> str:
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 Chatudo. สงวนลิขสิทธิ์.</span>
-      <span>chatudo.com &middot; เอกสารฉบับร่าง รอการยืนยันข้อมูลก่อนเผยแพร่จริง</span>
+      <span>chatudo.com</span>
     </div>
   </div>
 </footer>
