@@ -328,7 +328,7 @@ def render_pricing() -> str:
         title="ราคา Chatudo · Founding, Starter, Pro, Business",
         description="ราคา Chatudo แพ็ก Founding ฿990 สองเดือนแรก Starter ฿1,990 Pro ฿3,990 Business ฿9,900 ต่อเดือน เลือกได้ตามช่องทางและขนาดร้าน",
         og_title="ราคา Chatudo",
-        og_description="แพ็กเรียบง่าย เริ่มต้น ฿1,990 ต่อเดือน ยกเลิกได้ทุกเดือน",
+        og_description="แพ็กเรียบง่าย Starter ฿1,990 ต่อเดือน เลือกได้ตามช่องทางและขนาดร้าน",
         body_html=body,
         active_key="pricing",
         config=CONFIG,
