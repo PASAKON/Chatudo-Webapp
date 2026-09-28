@@ -1,0 +1,27 @@
+# Contabo deploy. The CTO runs this (do NOT `docker compose up` from a
+# developer/worker session) once DNS for chatudo.com / www.chatudo.com
+# points at this box.
+name: chatudo-web
+
+services:
+  web:
+    build: .
+    container_name: chatudo-web
+    restart: unless-stopped
+    networks:
+      - n8n_default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=n8n_default"
+      - "traefik.http.routers.chatudo-web.rule=Host(`chatudo.com`) || Host(`www.chatudo.com`)"
+      - "traefik.http.routers.chatudo-web.entrypoints=websecure"
+      - "traefik.http.routers.chatudo-web.tls.certresolver=mytlschallenge"
+      - "traefik.http.routers.chatudo-web.middlewares=chatudo-www-redirect"
+      - "traefik.http.middlewares.chatudo-www-redirect.redirectregex.regex=^https?://www\\.chatudo\\.com/(.*)"
+      - "traefik.http.middlewares.chatudo-www-redirect.redirectregex.replacement=https://chatudo.com/$${1}"
+      - "traefik.http.middlewares.chatudo-www-redirect.redirectregex.permanent=true"
+      - "traefik.http.services.chatudo-web.loadbalancer.server.port=80"
+
+networks:
+  n8n_default:
+    external: true

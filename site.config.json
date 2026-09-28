@@ -1,0 +1,14 @@
+{
+  "_comment": "Single source of truth for facts not yet confirmed by the CEO. Every value here that is null renders on the site as a visible [รอยืนยัน: ...] placeholder (see build/render.py: ph()). Fill in a value and rebuild (./scripts/build.sh) to make it live; do not hand-edit the generated HTML in public/.",
+  "site_name": "Chatudo",
+  "domain": "chatudo.com",
+  "legal_name": null,
+  "registered_address": null,
+  "contact_email": null,
+  "contact_phone": null,
+  "line_oa_url": null,
+  "facebook_page_url": null,
+  "data_retention_period": null,
+  "deletion_request_sla": null,
+  "effective_date": null
+}
