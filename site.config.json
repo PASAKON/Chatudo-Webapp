@@ -8,9 +8,17 @@
   "contact_phone": null,
   "line_oa_url": null,
   "facebook_page_url": null,
-  "data_retention_period": null,
-  "deletion_request_sla": null,
+  "data_retention_period": "เนื้อหาแชทเก็บ 90 วันแล้วลบอัตโนมัติ",
+  "data_retention_period_en": "We keep chat content for 90 days, then delete it automatically.",
+  "deletion_request_sla": "ลบภายใน 7 วันหลังได้รับคำขอ ลบภายใน 30 วันหลังเลิกใช้",
+  "deletion_request_sla_en": "Deleted within 7 days of receiving the request. Deleted within 30 days after the shop stops using the service.",
   "effective_date": null,
   "vat_note": null,
-  "founding_after_price": null
+  "founding_after_price": 1990,
+  "deletion_scope_note": "ลบได้เฉพาะสำเนาที่ Chatudo เก็บ",
+  "deletion_scope_note_en": "Deletion covers only the copy Chatudo keeps.",
+  "line_oa_data_note": "ส่วนแชทใน LINE OA เป็นของร้านกับ LINE เราลบให้ไม่ได้",
+  "line_oa_data_note_en": "Chats inside LINE OA belong to the shop and LINE, and we cannot delete them.",
+  "backup_retention_note": "สำเนาสำรองเก็บไม่เกิน 30 วัน",
+  "backup_retention_note_en": "Backup copies are kept for at most 30 days."
 }

@@ -51,7 +51,7 @@ def meta_note_html() -> str:
 <div class="notice">
   <span class="icon">{icon('info')}</span>
   <span>การเชื่อมต่อ Facebook Messenger และ Instagram จะเปิดใช้งานได้หลังจาก Meta อนุมัติแอปของเราแล้ว
-  ระหว่างนี้ทุกแพ็กใช้งานได้เต็มรูปแบบผ่าน LINE OA ก่อน ส่วน Messenger และ IG จะเปิดให้ใช้ทันทีที่ผ่านการอนุมัติ</span>
+  ช่วงแรกเปิดให้ใช้เฉพาะ LINE OA และเฉพาะแพ็ก Founding กับ Starter ส่วน Messenger และ IG จะเปิดทันทีที่ Meta อนุมัติแอปของเรา ตอนนี้ยังบอกวันไม่ได้</span>
 </div>
 """
 
@@ -93,17 +93,17 @@ def contact_section() -> str:
 # ---------------------------------------------------------------------------
 
 JOBS = [
-    ("moon", "ตอบแชทตอนดึกให้", "ลูกค้าทักมาช่วง 22:00 ถึง 09:00 วันหยุด หรือช่วงแชทล้นมือ Chatudo ช่วยตอบเบื้องต้นแทนได้ทันที"),
+    ("moon", "ร่างคำตอบตอนดึกให้", "ลูกค้าทักมาช่วง 22:00 ถึง 09:00 วันหยุด หรือช่วงแชทล้นมือ Chatudo ช่วยร่างคำตอบให้ทันที แอดมินกดส่งได้โดยไม่ต้องพิมพ์เอง"),
     ("pencil", "ร่างคำตอบให้แอดมิน", "AI อ่านแชทแล้วร่างคำตอบให้พร้อมส่ง แอดมินเช็กแล้วกดส่งได้ในคลิกเดียว ไม่ต้องพิมพ์เองทุกข้อความ"),
-    ("bell", "ตามลูกค้าที่เงียบไป", "ลูกค้าทักมาแล้วหาย Chatudo ช่วยส่งข้อความตามให้ ก่อนที่ออเดอร์นั้นจะหลุดมือไปเฉยๆ"),
+    ("bell", "ตามลูกค้าที่เงียบไป", "ลูกค้าทักมาแล้วหาย Chatudo ช่วยส่งข้อความตามให้ ก่อนที่ออเดอร์นั้นจะหลุดมือไปเฉยๆ (ฟีเจอร์นี้อยู่ในแพ็ก Pro ที่กำลังพัฒนา ยังไม่เปิดรับสมัคร)"),
     ("book", "ความรู้ไม่หายไปกับแอดมิน", "คำตอบ โปรโมชัน และข้อมูลร้านถูกเก็บไว้ในระบบ แอดมินลาออกหรือเปลี่ยนคนก็ยังตอบลูกค้าได้ต่อเนื่อง"),
-    ("chart", "เจ้าของร้านเห็นภาพรวม", "ดูได้ว่าแชทไหนปิดการขายแล้ว แชทไหนยังค้างอยู่ ไม่ต้องไล่เปิดทีละแชทเอง"),
+    ("chart", "เจ้าของร้านเห็นภาพรวม", "ดูได้ว่าแชทไหนปิดการขายแล้ว แชทไหนยังค้างอยู่ ไม่ต้องไล่เปิดทีละแชทเอง (ฟีเจอร์นี้อยู่ในแพ็ก Pro ที่กำลังพัฒนา ยังไม่เปิดรับสมัคร)"),
 ]
 
 STEPS = [
     ("link", "เชื่อมต่อ LINE OA ของร้าน", "เชื่อมบัญชี LINE OA ที่ร้านใช้อยู่กับ Chatudo ใช้เวลาไม่นาน ไม่ต้องเปลี่ยนเบอร์หรือย้ายลูกค้าไปที่ใหม่"),
-    ("book", "Chatudo เรียนรู้ข้อมูลร้าน", "ระบบเรียนรู้จากเพจ คำถามที่ลูกค้าถามบ่อย และคำตอบที่แอดมินเคยใช้ เพื่อร่างคำตอบให้ตรงกับสไตล์ร้านคุณ"),
-    ("check", "แอดมินเช็กแล้วกดส่ง", "แอดมินของร้านเป็นคนตรวจและกดส่งคำตอบที่ AI ร่างไว้เป็นค่าเริ่มต้น ยกเว้นช่วงเวลาที่ร้านเลือกให้ Chatudo ตอบลูกค้าเอง เช่น ตอนดึกหรือวันหยุด ตามที่ระบุในแพ็ก"),
+    ("book", "ตั้งค่าข้อมูลร้านให้", "ทีมงานตั้งค่าจากข้อมูลบนเพจและเว็บของร้านให้ตอนติดตั้ง รวมถึงคำถามที่ลูกค้าถามบ่อยและคำตอบที่แอดมินเคยใช้ เพื่อร่างคำตอบให้ตรงกับสไตล์ร้านคุณ"),
+    ("check", "แอดมินเช็กแล้วกดส่ง", "แอดมินของร้านเป็นคนตรวจและกดส่งคำตอบที่ AI ร่างไว้เองทุกข้อความ"),
 ]
 
 SEGMENTS = [
@@ -168,7 +168,7 @@ def render_home() -> str:
     <div class="hero-art">
       <img src="/assets/img/logo-mark.png" alt="" width="100" height="100">
       <span class="hero-art-badge">{icon('check')} แอดมินอนุมัติก่อนส่งเป็นค่าเริ่มต้น</span>
-      <p style="color:var(--warm-gray);font-size:0.95rem">AI ร่าง แอดมินอนุมัติก่อนส่งเป็นค่าเริ่มต้น ยกเว้นช่วงเวลาที่ร้านเลือกให้ Chatudo ตอบเอง เช่น ตอนดึกหรือวันหยุด</p>
+      <p style="color:var(--warm-gray);font-size:0.95rem">AI ร่าง แอดมินของร้านตรวจและกดส่งเองทุกข้อความ</p>
     </div>
   </div>
 </section>
@@ -229,12 +229,12 @@ def render_home() -> str:
 PLANS = [
     {
         "name": "Founding",
-        "badge": "จำกัด 30 ร้านแรก",
+        "badge": "ร้านนำร่องกลุ่มแรก จำนวนจำกัด",
         "price": "฿990",
         "period": "/เดือน",
-        "note": f"ราคานี้ใช้ได้ 2 เดือนแรก ได้สิทธิ์เท่าแพ็ก Pro ทั้งหมด แลกกับการเป็น case study ให้ Chatudo "
-                f"หลังจากนั้น {ph('founding_after_price', 'ราคาหลัง 2 เดือนแรก')}",
-        "features": ["ฟีเจอร์ทั้งหมดของแพ็ก Pro"],
+        "note": "ใช้ฟรี 14 วัน หลังจากนั้น 990 บาทต่อเดือน 2 เดือนแรก แล้วเป็น 1,990 บาทต่อเดือน "
+                "สำหรับร้านนำร่องกลุ่มแรก ถ้าผลออกมาดี ขอเขียนเป็นเคสสั้นๆ โดยร้านอ่านก่อนเผยแพร่ทุกครั้ง",
+        "features": ["ฟีเจอร์เท่าแพ็ก Starter"],
         "featured": False,
     },
     {
@@ -243,32 +243,44 @@ PLANS = [
         "price": "฿1,990",
         "period": "/เดือน",
         "note": "เริ่มต้นใช้งาน 1 ช่องทาง",
-        "features": ["1 ช่องทาง (LINE OA)", "AI ร่างคำตอบให้แอดมินกดส่ง", "ตอบลูกค้าเองตอนกลางคืน"],
+        "features": [
+            "1 ช่องทาง (LINE OA)",
+            "AI ร่างคำตอบ แอดมินตรวจแล้วกดส่งเองทุกข้อความ",
+            "เรื่องที่บอทไม่แน่ใจ ส่งกลับให้แอดมิน พร้อมแจ้งเตือนทาง LINE",
+            "ใช้ฟรี 14 วันแรก ไม่ตัดเงินอัตโนมัติ",
+        ],
         "featured": False,
     },
     {
         "name": "Pro",
-        "badge": None,
+        "badge": "เร็วๆ นี้ ยังไม่เปิดรับสมัคร",
+        "badge_muted": True,
         "price": "฿3,990",
         "period": "/เดือน",
         "note": "ครบทุกช่องทางแชทหลัก",
-        "features": ["LINE OA + Facebook Messenger + Instagram", "ตามลูกค้าที่ทักมาแล้วเงียบไป", "รายงานสรุปให้เจ้าของร้าน"],
+        "features": [
+            "LINE OA + Facebook Messenger + Instagram (หลัง Meta อนุมัติ)",
+            "ตามลูกค้าที่ทักมาแล้วเงียบไป (กำลังพัฒนา)",
+            "รายงานสรุปให้เจ้าของร้าน (กำลังพัฒนา)",
+        ],
         "featured": True,
     },
     {
         "name": "Business",
-        "badge": None,
+        "badge": "เร็วๆ นี้ ยังไม่เปิดรับสมัคร",
+        "badge_muted": True,
         "price": "฿9,900",
         "period": "/เดือน",
         "note": "สำหรับร้านที่มีหลายเพจหรือหลายสาขา",
-        "features": ["หลายเพจ / หลายสาขาในบัญชีเดียว", "เชื่อมต่อผ่าน API", "ทีมงานติดตั้งให้ถึงพร้อมใช้งาน"],
+        "features": ["หลายเพจ / หลายสาขาในบัญชีเดียว", "ทีมงานติดตั้งให้ถึงพร้อมใช้งาน"],
         "featured": False,
     },
 ]
 
 
 def render_price_card(plan: dict) -> str:
-    badge_html = f'<span class="badge">{plan["badge"]}</span>' if plan["badge"] else ""
+    badge_cls = "badge badge-muted" if plan.get("badge_muted") else "badge"
+    badge_html = f'<span class="{badge_cls}">{plan["badge"]}</span>' if plan["badge"] else ""
     features_html = "\n".join(
         f'<li><span class="icon">{icon("check")}</span> {f}</li>' for f in plan["features"]
     )
@@ -311,11 +323,11 @@ def render_pricing() -> str:
     <div class="grid">
       <div class="card">
         <h3>Chatudo ตอบแทนแอดมินเลยไหม</h3>
-        <p>ไม่ใช่ระบบตอบอัตโนมัติเต็มรูปแบบ AI ร่างคำตอบให้ แอดมินของร้านเป็นคนตรวจและกดส่งเอง ยกเว้นช่วงเวลาที่ร้านตั้งค่าให้ตอบแทนตอนกลางคืนตามที่ระบุในแพ็ก</p>
+        <p>ไม่ใช่ระบบตอบอัตโนมัติเต็มรูปแบบ AI ร่างคำตอบให้ แอดมินของร้านเป็นคนตรวจและกดส่งเองทุกข้อความ</p>
       </div>
       <div class="card">
         <h3>ใช้ Messenger กับ IG ได้เลยไหม</h3>
-        <p>ยังใช้ไม่ได้ในตอนนี้ รอ Meta อนุมัติแอปของเราก่อน ระหว่างนี้ใช้งานผ่าน LINE OA ได้เต็มรูปแบบ</p>
+        <p>ยังใช้ไม่ได้ในตอนนี้ รอ Meta อนุมัติแอปของเราก่อน ตอนนี้ใช้งานผ่าน LINE OA</p>
       </div>
     </div>
   </div>
@@ -402,7 +414,8 @@ def render_privacy() -> str:
     เราจะดำเนินการให้เป็นไปตามมาตรฐานการคุ้มครองข้อมูลที่ PDPA กำหนด</p>
 
     <h2 id="retention">6. ระยะเวลาการเก็บข้อมูล</h2>
-    <p>เราเก็บข้อมูลสนทนาไว้เป็นระยะเวลา {retention} นับจากการติดต่อครั้งล่าสุด เว้นแต่กฎหมายจะกำหนดให้เก็บนานกว่านั้น หรือเจ้าของข้อมูลร้องขอให้ลบก่อนกำหนด</p>
+    <p>{retention} เว้นแต่กฎหมายจะกำหนดให้เก็บนานกว่านั้น หรือเจ้าของข้อมูลร้องขอให้ลบก่อนกำหนด</p>
+    <p>{ph("backup_retention_note", "ระยะเวลาเก็บสำเนาสำรอง")}</p>
 
     <h2 id="security">7. มาตรการความปลอดภัย</h2>
     <p>เรามีมาตรการทางเทคนิคและการบริหารจัดการเพื่อป้องกันการเข้าถึง เปิดเผย หรือใช้ข้อมูลโดยไม่ได้รับอนุญาต เช่น
@@ -414,6 +427,10 @@ def render_privacy() -> str:
 
     <h2 id="deletion">9. วิธีขอลบข้อมูล</h2>
     <p>ดูขั้นตอนละเอียดได้ที่หน้า <a href="/data-deletion/">วิธีขอลบข้อมูล</a></p>
+    <ul>
+      <li>{ph("deletion_scope_note", "ขอบเขตของการลบข้อมูล")}</li>
+      <li>{ph("line_oa_data_note", "ข้อมูลแชทใน LINE OA")}</li>
+    </ul>
 
     <h2 id="contact">10. ติดต่อเรา</h2>
     <p>{legal_name}<br>{address}<br>อีเมล {email}<br>โทร {phone}</p>
@@ -457,8 +474,8 @@ def render_terms() -> str:
     </ul>
 
     <h2>3. ลักษณะของบริการ</h2>
-    <p>Chatudo ใช้ AI ร่างคำตอบจากข้อมูลของร้านค้า แอดมินของร้านเป็นผู้ตรวจสอบและกดส่งคำตอบด้วยตนเองเป็นค่าเริ่มต้น
-    ยกเว้นช่วงเวลาที่ร้านค้าเลือกเปิดให้ระบบตอบแทนตามเงื่อนไขของแพ็กที่สมัคร (เช่น ช่วงเวลากลางคืนหรือวันหยุด) บริการนี้เป็นผู้ช่วยแอดมิน ไม่ใช่การแทนที่แอดมินทั้งหมด</p>
+    <p>Chatudo ใช้ AI ร่างคำตอบจากข้อมูลของร้านค้า แอดมินของร้านเป็นผู้ตรวจสอบและกดส่งคำตอบด้วยตนเองทุกข้อความ
+    บริการนี้เป็นผู้ช่วยแอดมิน ไม่ใช่การแทนที่แอดมินทั้งหมด</p>
 
     <h2>4. การสมัครและการชำระค่าบริการ</h2>
     <p>ร้านค้าเลือกแพ็กและชำระค่าบริการตามราคาที่ระบุในหน้า <a href="/pricing/">ราคา</a> เป็นรายเดือน
@@ -468,7 +485,7 @@ def render_terms() -> str:
     <ul>
       <li>ให้ข้อมูลร้านค้าที่ถูกต้องและเป็นปัจจุบันสำหรับใช้ร่างคำตอบ</li>
       <li>ดูแลบัญชีผู้ใช้และสิทธิ์การเข้าถึงของทีมงานร้านให้ปลอดภัย</li>
-      <li>ตรวจสอบคำตอบที่ระบบร่างให้ก่อนส่งจริง ยกเว้นกรณีที่ตั้งค่าให้ตอบอัตโนมัติในช่วงเวลาที่กำหนด</li>
+      <li>ตรวจสอบคำตอบที่ระบบร่างให้ก่อนส่งจริงทุกข้อความ</li>
     </ul>
 
     <h2>6. ข้อมูลและความเป็นส่วนตัว</h2>
@@ -520,7 +537,7 @@ def render_data_deletion() -> str:
          "และบัญชีที่ต้องการให้ลบข้อมูล (ช่องทางหลักที่แนะนำ) หรือพิมพ์คำขอในแชทที่คุยกับร้านค้าที่ใช้ Chatudo อยู่ "
          "เช่น พิมพ์ว่า “ขอลบข้อมูล” แล้วร้านค้าจะส่งคำขอต่อมาให้เรา"),
         ("shield", "เราตรวจสอบคำขอ", "ทีมงานยืนยันตัวตนผู้ขอและตรวจสอบว่าข้อมูลที่จะลบตรงกับบัญชีที่ระบุ เพื่อป้องกันการลบข้อมูลผิดบัญชี"),
-        ("clock", "ดำเนินการลบ", f"ข้อมูลที่เกี่ยวข้องกับบัญชีที่ขอจะถูกลบภายใน {sla} นับจากวันที่เราตรวจสอบคำขอเสร็จสิ้น"),
+        ("clock", "ดำเนินการลบ", sla),
         ("check", "ยืนยันผลให้ทราบ", "เราจะส่งอีเมลหรือข้อความยืนยันกลับไปเมื่อการลบข้อมูลเสร็จสมบูรณ์"),
     ]
     steps_html = "\n".join(
@@ -550,6 +567,8 @@ def render_data_deletion() -> str:
     </ul>
     <p>ข้อมูลบางส่วนที่กฎหมายกำหนดให้ต้องเก็บไว้ (เช่น เพื่อการตรวจสอบทางบัญชีหรือข้อพิพาท) อาจเก็บต่อไปตามระยะเวลาที่กฎหมายกำหนด
     แม้จะได้รับคำขอลบข้อมูลแล้ว</p>
+    <p>{ph("deletion_scope_note", "ขอบเขตของการลบข้อมูล")} {ph("line_oa_data_note", "ข้อมูลแชทใน LINE OA")}</p>
+    <p>{ph("backup_retention_note", "ระยะเวลาเก็บสำเนาสำรอง")}</p>
 
     <h2>ติดต่อเรา</h2>
     <p>มีคำถามเกี่ยวกับการขอลบข้อมูล ติดต่อได้ที่อีเมล {email}</p>
@@ -583,7 +602,7 @@ def render_privacy_en() -> str:
     phone = ph_en("contact_phone", "contact phone")
     legal_name = ph_en("legal_name", "legal entity name")
     address = ph_en("registered_address", "registered address")
-    retention = ph_en("data_retention_period", "data retention period")
+    retention = ph_en("data_retention_period_en", "data retention period")
     body = f"""
 <section>
   <div class="container legal-wrap">
@@ -638,8 +657,9 @@ def render_privacy_en() -> str:
     the country, we will do so in accordance with the data-protection standards the PDPA requires.</p>
 
     <h2 id="retention">6. Data Retention Period</h2>
-    <p>We retain conversation data for {retention} from the most recent contact, unless the law requires a longer
-    period, or the data subject requests earlier deletion.</p>
+    <p>{retention} This period may be extended where the law requires it, or shortened if the data subject
+    requests earlier deletion.</p>
+    <p>{ph_en("backup_retention_note_en", "backup retention period")}</p>
 
     <h2 id="security">7. Security Measures</h2>
     <p>We maintain technical and administrative measures to prevent unauthorized access, disclosure or use of data,
@@ -652,6 +672,10 @@ def render_privacy_en() -> str:
 
     <h2 id="deletion">9. How to Request Deletion</h2>
     <p>See the detailed steps on our <a href="/en/data-deletion/">Data Deletion</a> page.</p>
+    <ul>
+      <li>{ph_en("deletion_scope_note_en", "scope of deletion")}</li>
+      <li>{ph_en("line_oa_data_note_en", "LINE OA chat data")}</li>
+    </ul>
 
     <h2 id="contact">10. Contact Us</h2>
     <p>{legal_name}<br>{address}<br>Email {email}<br>Phone {phone}</p>
@@ -697,9 +721,7 @@ def render_terms_en() -> str:
 
     <h2>3. Nature of the Service</h2>
     <p>Chatudo uses AI to draft replies from the shop&rsquo;s information. The shop&rsquo;s admin reviews and sends
-    each reply by default, except during the hours the shop chooses to let the system reply on its own, under the
-    terms of the plan it signed up for (e.g. night hours or holidays). This service is an admin assistant, not a
-    full replacement for the admin.</p>
+    every reply themselves. This service is an admin assistant, not a full replacement for the admin.</p>
 
     <h2>4. Sign-up and Payment</h2>
     <p>The shop selects a plan and pays the price listed on the <a href="/pricing/">Pricing</a> page monthly.
@@ -709,7 +731,7 @@ def render_terms_en() -> str:
     <ul>
       <li>Provide accurate, up-to-date shop information for drafting replies</li>
       <li>Keep the shop&rsquo;s team accounts and access secure</li>
-      <li>Review AI-drafted replies before sending, except where auto-reply hours have been configured</li>
+      <li>Review every AI-drafted reply before sending</li>
     </ul>
 
     <h2>6. Data and Privacy</h2>
@@ -758,7 +780,7 @@ def render_terms_en() -> str:
 
 def render_data_deletion_en() -> str:
     email = ph_en("contact_email", "contact email")
-    sla = ph_en("deletion_request_sla", "deletion turnaround time")
+    sla = ph_en("deletion_request_sla_en", "deletion turnaround time")
     steps = [
         ("mail", "Send us your request", f"Email {email} with the shop&rsquo;s name, the channel used "
          "(LINE OA / Messenger / Instagram), and the account you want deleted (recommended primary route), or type "
@@ -766,8 +788,7 @@ def render_data_deletion_en() -> str:
          "shop will forward the request to us."),
         ("shield", "We verify the request", "Our team verifies the requester&rsquo;s identity and checks that the "
          "data to be deleted matches the account specified, to prevent deleting the wrong account."),
-        ("clock", "We carry out the deletion", f"Data related to the requested account is deleted within {sla} "
-         "from the date we finish verifying the request."),
+        ("clock", "We carry out the deletion", sla),
         ("check", "We confirm the result", "We will send an email or message confirming once the deletion is complete."),
     ]
     steps_html = "\n".join(
@@ -797,6 +818,8 @@ def render_data_deletion_en() -> str:
     </ul>
     <p>Some data the law requires us to keep (e.g. for accounting or dispute records) may be retained for the period
     the law requires, even after a deletion request.</p>
+    <p>{ph_en("deletion_scope_note_en", "scope of deletion")} {ph_en("line_oa_data_note_en", "LINE OA chat data")}</p>
+    <p>{ph_en("backup_retention_note_en", "backup retention period")}</p>
 
     <h2>Contact Us</h2>
     <p>Questions about requesting deletion? Contact us at {email}</p>
