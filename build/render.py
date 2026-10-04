@@ -62,10 +62,12 @@ CONTACT_SECTION = None  # set below after helper defs
 def contact_section() -> str:
     line_url = CONFIG.get("line_oa_url")
     contact_email = CONFIG.get("contact_email")
+    # Chatudo has no LINE OA of its own yet: with no line_oa_url the button is
+    # left out instead of showing a placeholder on the live site (C1 go-live).
     line_html = (
         f'<a class="btn btn-primary" href="{line_url}">คุยผ่าน LINE OA</a>'
         if line_url
-        else f'<span class="btn btn-primary" aria-disabled="true">คุยผ่าน LINE OA {ph("line_oa_url", "ลิงก์ LINE OA")}</span>'
+        else ''
     )
     email_html = (
         f'<a class="btn btn-outline" href="mailto:{contact_email}">อีเมลหาเรา {contact_email}</a>'
